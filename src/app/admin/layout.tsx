@@ -41,12 +41,12 @@ export default async function AdminLayout({
             </div>
             <div className="flex items-center space-x-4">
               <span className="text-sm hidden sm:block">Benvenuto, Admin</span>
-              <a
+              <Link
                 href="/"
                 className="bg-blue-700 hover:bg-blue-800 px-4 py-2 rounded-md text-sm font-medium transition"
               >
                 Torna al Sito
-              </a>
+              </Link>
             </div>
           </div>
         </div>
