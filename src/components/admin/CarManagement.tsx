@@ -5,7 +5,7 @@ import { Plus, Edit, Trash2, X } from 'lucide-react'
 import CarForm from './CarForm'
 
 interface Car {
-  id: string
+  id?: string
   brand: string
   model: string
   year: number
@@ -26,7 +26,8 @@ export default function CarManagement({ initialCars }: { initialCars: Car[] }) {
   const [editingCar, setEditingCar] = useState<Car | null>(null)
   const [loading, setLoading] = useState(false)
 
-  const handleDelete = async (carId: string) => {
+  const handleDelete = async (carId: string | undefined) => {
+    if (!carId) return
     if (!confirm('Sei sicuro di voler eliminare questa auto?')) return
 
     setLoading(true)

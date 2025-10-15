@@ -10,7 +10,7 @@ function formatNumber(num: number): string {
 }
 
 interface CarForSale {
-  id: string
+  id?: string
   brand: string
   model: string
   year: number
@@ -36,7 +36,9 @@ export default function CarForSaleManagement({ initialCars }: { initialCars: Car
   const [editingCar, setEditingCar] = useState<CarForSale | null>(null)
   const [loading, setLoading] = useState(false)
 
-  const handleDelete = async (id: string) => {
+  const handleDelete = async (id: string | undefined) => {
+    if (!id) return
+
     if (!confirm('Sei sicuro di voler eliminare questa auto?')) {
       return
     }
