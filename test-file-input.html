@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Upload Immagine</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+        .upload-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            background: #2563EB;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .upload-btn:hover {
+            background: #1D4ED8;
+        }
+        .preview {
+            margin-top: 20px;
+            max-width: 100%;
+        }
+        .preview img {
+            max-width: 100%;
+            border-radius: 8px;
+            border: 2px solid #10B981;
+        }
+        .file-info {
+            margin-top: 10px;
+            padding: 10px;
+            background: #F3F4F6;
+            border-radius: 4px;
+        }
+        .success {
+            color: #10B981;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Test Upload Immagine</h1>
+    <p>Questo è un test semplice per verificare che il pulsante di upload funzioni correttamente.</p>
+    
+    <hr>
+    
+    <h2>Metodo 1: Pulsante con onClick</h2>
+    <button class="upload-btn" onclick="document.getElementById('fileInput1').click()">
+        📤 Seleziona Immagine
+    </button>
+    <input 
+        type="file" 
+        id="fileInput1" 
+        accept="image/*" 
+        style="display: none;"
+        onchange="handleFileSelect(event, 'preview1')"
+    >
+    <div id="preview1" class="preview"></div>
+    
+    <hr>
+    
+    <h2>Metodo 2: Label con for</h2>
+    <label for="fileInput2" class="upload-btn" style="cursor: pointer;">
+        📤 Seleziona Immagine
+    </label>
+    <input 
+        type="file" 
+        id="fileInput2" 
+        accept="image/*" 
+        style="display: none;"
+        onchange="handleFileSelect(event, 'preview2')"
+    >
+    <div id="preview2" class="preview"></div>
+    
+    <hr>
+    
+    <h2>Metodo 3: Input visibile</h2>
+    <input 
+        type="file" 
+        id="fileInput3" 
+        accept="image/*"
+        onchange="handleFileSelect(event, 'preview3')"
+    >
+    <div id="preview3" class="preview"></div>
+    
+    <script>
+        function handleFileSelect(event, previewId) {
+            const file = event.target.files[0];
+            const previewDiv = document.getElementById(previewId);
+            
+            if (file) {
+                console.log('File selezionato:', file.name, file.size, file.type);
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewDiv.innerHTML = `
+                        <div class="file-info">
+                            <p class="success">✅ File caricato con successo!</p>
+                            <p><strong>Nome:</strong> ${file.name}</p>
+                            <p><strong>Dimensione:</strong> ${(file.size / 1024).toFixed(2)} KB</p>
+                            <p><strong>Tipo:</strong> ${file.type}</p>
+                        </div>
+                        <img src="${e.target.result}" alt="Preview">
+                    `;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>
+
