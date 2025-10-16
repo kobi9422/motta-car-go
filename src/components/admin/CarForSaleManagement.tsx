@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { Plus, Edit, Trash2, X, Gauge, Calendar } from 'lucide-react'
+import { Plus, Edit, Trash2, X, Gauge } from 'lucide-react'
 import CarForSaleForm from './CarForSaleForm'
 
 // Helper function to format numbers with Italian locale (consistent on server and client)

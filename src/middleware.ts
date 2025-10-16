@@ -46,7 +46,7 @@ export async function middleware(request: NextRequest) {
         url.searchParams.set('redirect', request.nextUrl.pathname)
         return NextResponse.redirect(url)
       }
-    } catch (error) {
+    } catch {
       // If there's an auth error, redirect to login
       const url = request.nextUrl.clone()
       url.pathname = '/login'

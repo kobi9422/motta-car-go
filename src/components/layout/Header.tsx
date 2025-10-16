@@ -11,10 +11,11 @@ export default function Header() {
   const [user, setUser] = useState<any>(null)
   const [isAdmin, setIsAdmin] = useState(false)
   const router = useRouter()
-  const supabase = createClient()
 
   // Check user session and role
   useEffect(() => {
+    const supabase = createClient()
+
     const checkUserAndRole = async () => {
       const { data: { user } } = await supabase.auth.getUser()
       setUser(user)
@@ -56,6 +57,7 @@ export default function Header() {
   }, [])
 
   const handleLogout = async () => {
+    const supabase = createClient()
     await supabase.auth.signOut()
     setUser(null)
     router.push('/')
