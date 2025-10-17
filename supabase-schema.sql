@@ -132,9 +132,9 @@ CREATE POLICY "Admins can update documents" ON documents
     )
   );
 
--- Create storage bucket for documents
+-- Create storage bucket for documents (public for easier access with RLS protection)
 INSERT INTO storage.buckets (id, name, public)
-VALUES ('documents', 'documents', false);
+VALUES ('documents', 'documents', true);
 
 -- Storage policies for documents
 CREATE POLICY "Users can upload their own documents" ON storage.objects

@@ -34,23 +34,24 @@ interface UploadedDocument {
   preview: string
 }
 
-export default function BookingPage({ params }: { params: { carId: string } }) {
+export default function BookingPage({ params }: { params: Promise<{ carId: string }> }) {
   const router = useRouter()
   const supabase = createClient()
-  
+
   const [car, setCar] = useState<Car | null>(null)
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [submitting, setSubmitting] = useState(false)
   const [uploadingDocs, setUploadingDocs] = useState(false)
-  
+  const [carId, setCarId] = useState<string>('')
+
   const [formData, setFormData] = useState<BookingFormData>({
     start_date: format(addDays(new Date(), 1), 'yyyy-MM-dd'),
     end_date: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
     pickup_location: 'Roma - Sede Centrale',
     dropoff_location: 'Roma - Sede Centrale',
   })
-  
+
   const [documents, setDocuments] = useState<UploadedDocument[]>([])
   const licenseInputRef = useRef<HTMLInputElement>(null)
   const idCardInputRef = useRef<HTMLInputElement>(null)
@@ -59,10 +60,15 @@ export default function BookingPage({ params }: { params: { carId: string } }) {
   useEffect(() => {
     async function loadData() {
       try {
+        // Await params
+        const resolvedParams = await params
+        const id = resolvedParams.carId
+        setCarId(id)
+
         // Check authentication
         const { data: { user: authUser } } = await supabase.auth.getUser()
         if (!authUser) {
-          router.push(`/login?redirect=/prenota/${params.carId}`)
+          router.push(`/login?redirect=/prenota/${id}`)
           return
         }
         setUser(authUser)
@@ -71,7 +77,7 @@ export default function BookingPage({ params }: { params: { carId: string } }) {
         const { data: carData, error } = await supabase
           .from('cars')
           .select('*')
-          .eq('id', params.carId)
+          .eq('id', id)
           .single()
 
         if (error || !carData) {
@@ -90,7 +96,7 @@ export default function BookingPage({ params }: { params: { carId: string } }) {
     }
 
     loadData()
-  }, [params.carId, router, supabase])
+  }, [params, router, supabase])
 
   // Calculate total price
   const calculateTotalPrice = () => {
