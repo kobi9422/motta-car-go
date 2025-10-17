@@ -61,7 +61,7 @@ export default function RegisterPage() {
     setLoading(true)
 
     try {
-      const { error } = await supabase.auth.signUp({
+      const { data, error } = await supabase.auth.signUp({
         email: formData.email,
         password: formData.password,
         options: {
@@ -73,12 +73,15 @@ export default function RegisterPage() {
 
       if (error) throw error
 
-      setSuccess(true)
-      
-      // Redirect to login after 2 seconds
-      setTimeout(() => {
-        router.push('/login')
-      }, 2000)
+      // With autoconfirm enabled, user is automatically logged in
+      if (data.user) {
+        setSuccess(true)
+
+        // Redirect to dashboard immediately
+        setTimeout(() => {
+          router.push('/dashboard')
+        }, 1500)
+      }
     } catch (error: any) {
       setError(error.message || 'Errore durante la registrazione')
     } finally {
@@ -114,7 +117,7 @@ export default function RegisterPage() {
               <div className="bg-green-50 border border-green-200 rounded-md p-4 flex items-start">
                 <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 mr-3 flex-shrink-0" />
                 <div className="text-sm text-green-700">
-                  Registrazione completata! Verrai reindirizzato alla pagina di login...
+                  Registrazione completata! Accesso effettuato. Verrai reindirizzato alla dashboard...
                 </div>
               </div>
             )}
