@@ -7,6 +7,11 @@ import { Car, Users, Fuel, Settings, Calendar, Gauge } from 'lucide-react'
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
 
+// Helper function to format numbers with Italian locale (consistent on server and client)
+function formatNumber(num: number): string {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')
+}
+
 export default async function VenditaPage() {
   const supabase = await createClient()
 
@@ -80,7 +85,7 @@ export default async function VenditaPage() {
                   />
                   <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full shadow-md">
                     <span className="text-sm font-semibold text-gray-900">
-                      €{car.price.toLocaleString()}
+                      €{formatNumber(car.price)}
                     </span>
                   </div>
                   <div className="absolute top-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full shadow-md">
@@ -106,7 +111,7 @@ export default async function VenditaPage() {
                     </div>
                     <div className="flex items-center text-sm text-gray-600">
                       <Gauge className="h-4 w-4 mr-2 text-gray-400" />
-                      <span>{car.mileage.toLocaleString()} km</span>
+                      <span>{formatNumber(car.mileage)} km</span>
                     </div>
                     <div className="flex items-center text-sm text-gray-600">
                       <Users className="h-4 w-4 mr-2 text-gray-400" />
