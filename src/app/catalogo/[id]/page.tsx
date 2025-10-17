@@ -138,9 +138,12 @@ export default async function CarDetailPage({ params }: { params: Promise<{ id: 
 
             {/* CTA Buttons */}
             <div className="space-y-4">
-              <button className="w-full bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition">
+              <Link
+                href={`/prenota/${car.id}`}
+                className="block w-full bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition text-center"
+              >
                 Prenota Ora
-              </button>
+              </Link>
               <Link
                 href="/contatti"
                 className="block w-full bg-gray-200 text-gray-700 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-300 transition text-center"
