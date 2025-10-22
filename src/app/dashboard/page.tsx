@@ -5,7 +5,7 @@ import Link from 'next/link'
 
 export default async function DashboardPage() {
   const supabase = await createClient()
-  
+
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
@@ -18,6 +18,11 @@ export default async function DashboardPage() {
     .select('*')
     .eq('id', user.id)
     .single()
+
+  // Redirect admin users to admin dashboard
+  if (profile?.role === 'admin') {
+    redirect('/admin/dashboard')
+  }
 
   // Get user bookings
   const { data: bookings } = await supabase
