@@ -95,8 +95,8 @@ export default function ContattiPage() {
                     </div>
                     <div>
                       <h3 className="font-semibold text-gray-900 mb-1">Telefono</h3>
-                      <a href="tel:+390612345678" className="text-blue-600 hover:text-blue-700">
-                        +39 06 1234 5678
+                      <a href="tel:+393519876543" className="text-blue-600 hover:text-blue-700">
+                        +39 351 987 6543
                       </a>
                       <p className="text-sm text-gray-500 mt-1">Lun-Ven 9:00-18:00</p>
                     </div>
@@ -126,8 +126,8 @@ export default function ContattiPage() {
                     <div>
                       <h3 className="font-semibold text-gray-900 mb-1">Indirizzo</h3>
                       <p className="text-gray-600">
-                        Via Roma 123<br />
-                        00100 Roma, Italia
+                        Via Giuseppe Parini, 5<br />
+                        23891 Barzanò (LC), Italia
                       </p>
                     </div>
                   </div>

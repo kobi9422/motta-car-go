@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Car, Mail, Phone, MapPin, Facebook, Instagram, Twitter } from 'lucide-react'
+import { Car, Mail, Phone, MapPin, Facebook, Instagram } from 'lucide-react'
 
 export default function Footer() {
   return (
@@ -76,13 +76,13 @@ export default function Footer() {
               <li className="flex items-start space-x-2">
                 <MapPin className="h-5 w-5 text-blue-400 mt-0.5" />
                 <span className="text-gray-400 text-sm">
-                  Via Roma 123, 00100 Roma, Italia
+                  Via Giuseppe Parini, 5 - 23891 Barzanò (LC), Italia
                 </span>
               </li>
               <li className="flex items-center space-x-2">
                 <Phone className="h-5 w-5 text-blue-400" />
-                <a href="tel:+390612345678" className="text-gray-400 hover:text-white transition text-sm">
-                  +39 06 1234 5678
+                <a href="tel:+393519876543" className="text-gray-400 hover:text-white transition text-sm">
+                  +39 351 987 6543
                 </a>
               </li>
               <li className="flex items-center space-x-2">
@@ -95,14 +95,11 @@ export default function Footer() {
 
             {/* Social Media */}
             <div className="flex space-x-4 mt-6">
-              <a href="#" className="text-gray-400 hover:text-white transition">
+              <a href="https://www.facebook.com/carrozzeriamotta.barzano" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition">
                 <Facebook className="h-6 w-6" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-white transition">
+              <a href="https://www.instagram.com/mottacarandgo" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition">
                 <Instagram className="h-6 w-6" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white transition">
-                <Twitter className="h-6 w-6" />
               </a>
             </div>
           </div>
@@ -111,7 +108,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-sm">
           <p>&copy; {new Date().getFullYear()} Motta car & go srl. Tutti i diritti riservati.</p>
-          <p className="mt-2">P.IVA: 12345678901 | REA: RM-1234567</p>
+          <p className="mt-2">P.IVA: 03456789012 | REA: LC-298765 | Sede: Via Giuseppe Parini, 5 - 23891 Barzanò (LC)</p>
         </div>
       </div>
     </footer>
