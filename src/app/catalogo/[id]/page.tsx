@@ -22,6 +22,15 @@ export default async function CarDetailPage({ params }: { params: Promise<{ id: 
     notFound()
   }
 
+  // Get similar cars (same category, different car)
+  const { data: similarCars } = await supabase
+    .from('cars')
+    .select('*')
+    .eq('category', car.category)
+    .eq('available', true)
+    .neq('id', id)
+    .limit(3)
+
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -189,30 +198,36 @@ export default async function CarDetailPage({ params }: { params: Promise<{ id: 
         </div>
 
         {/* Similar Cars */}
-        <div className="mt-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Auto Simili</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="bg-white rounded-lg shadow-md overflow-hidden">
-                <div className="relative h-48 bg-gray-200">
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <Car className="h-16 w-16 text-gray-400" />
+        {similarCars && similarCars.length > 0 && (
+          <div className="mt-16">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Auto Simili</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {similarCars.map((similarCar: any) => (
+                <Link
+                  key={similarCar.id}
+                  href={`/catalogo/${similarCar.id}`}
+                  className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition block"
+                >
+                  <div className="relative h-48">
+                    <Image
+                      src={similarCar.image_url || '/placeholder-car.jpg'}
+                      alt={`${similarCar.brand} ${similarCar.model}`}
+                      fill
+                      className="object-cover"
+                    />
                   </div>
-                </div>
-                <div className="p-4">
-                  <h3 className="font-bold text-gray-900 mb-2">Auto Simile {i}</h3>
-                  <p className="text-sm text-gray-600 mb-4">Categoria simile</p>
-                  <Link
-                    href="/catalogo"
-                    className="block w-full bg-blue-600 text-white text-center py-2 rounded-lg font-semibold hover:bg-blue-700 transition"
-                  >
-                    Vedi Dettagli
-                  </Link>
-                </div>
-              </div>
-            ))}
+                  <div className="p-4">
+                    <h3 className="font-bold text-gray-900 mb-2">
+                      {similarCar.brand} {similarCar.model}
+                    </h3>
+                    <p className="text-sm text-gray-600 mb-2">{similarCar.category}</p>
+                    <p className="text-blue-600 font-semibold">€{similarCar.price_per_day}/giorno</p>
+                  </div>
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   )

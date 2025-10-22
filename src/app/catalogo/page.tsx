@@ -1,24 +1,90 @@
-import { createClient } from '@/lib/supabase/server'
+'use client'
+
+import { useState, useEffect } from 'react'
+import { createClient } from '@/lib/supabase/client'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Car, Users, Fuel, Settings } from 'lucide-react'
+import { Car, Users, Fuel, Settings, Loader2 } from 'lucide-react'
 
-// Disable caching for this page
-export const dynamic = 'force-dynamic'
-export const revalidate = 0
+export default function CatalogoPage() {
+  const [cars, setCars] = useState<any[]>([])
+  const [filteredCars, setFilteredCars] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
-export default async function CatalogoPage() {
-  const supabase = await createClient()
+  // Filter states
+  const [filters, setFilters] = useState({
+    category: '',
+    transmission: '',
+    fuel_type: '',
+    max_price: ''
+  })
 
-  // Get all available cars
-  const { data: cars, error } = await supabase
-    .from('cars')
-    .select('*')
-    .eq('available', true)
-    .order('price_per_day', { ascending: true })
+  const supabase = createClient()
 
-  if (error) {
-    console.error('Error fetching cars:', error)
+  // Load cars
+  useEffect(() => {
+    async function loadCars() {
+      const { data, error } = await supabase
+        .from('cars')
+        .select('*')
+        .eq('available', true)
+        .order('price_per_day', { ascending: true })
+
+      if (error) {
+        console.error('Error fetching cars:', error)
+      } else {
+        setCars(data || [])
+        setFilteredCars(data || [])
+      }
+      setLoading(false)
+    }
+    loadCars()
+  }, [])
+
+  // Apply filters
+  useEffect(() => {
+    let result = [...cars]
+
+    if (filters.category) {
+      result = result.filter(car =>
+        car.category.toLowerCase() === filters.category.toLowerCase()
+      )
+    }
+
+    if (filters.transmission) {
+      result = result.filter(car =>
+        car.transmission.toLowerCase() === filters.transmission.toLowerCase()
+      )
+    }
+
+    if (filters.fuel_type) {
+      result = result.filter(car =>
+        car.fuel_type.toLowerCase() === filters.fuel_type.toLowerCase()
+      )
+    }
+
+    if (filters.max_price) {
+      result = result.filter(car =>
+        car.price_per_day <= parseInt(filters.max_price)
+      )
+    }
+
+    setFilteredCars(result)
+  }, [filters, cars])
+
+  const handleFilterChange = (filterName: string, value: string) => {
+    setFilters(prev => ({
+      ...prev,
+      [filterName]: value
+    }))
+  }
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <Loader2 className="h-12 w-12 text-blue-600 animate-spin" />
+      </div>
+    )
   }
 
   return (
@@ -41,13 +107,19 @@ export default async function CatalogoPage() {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Categoria
               </label>
-              <select className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <select
+                value={filters.category}
+                onChange={(e) => handleFilterChange('category', e.target.value)}
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
                 <option value="">Tutte le categorie</option>
-                <option value="utilitaria">Utilitaria</option>
-                <option value="compatta">Compatta</option>
-                <option value="berlina">Berlina</option>
-                <option value="suv">SUV</option>
-                <option value="elettrica">Elettrica</option>
+                <option value="Utilitaria">Utilitaria</option>
+                <option value="Compatta">Compatta</option>
+                <option value="Berlina">Berlina</option>
+                <option value="SUV">SUV</option>
+                <option value="Elettrica">Elettrica</option>
+                <option value="Furgone">Furgone</option>
+                <option value="Pickup">Pickup</option>
               </select>
             </div>
 
@@ -55,10 +127,14 @@ export default async function CatalogoPage() {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Trasmissione
               </label>
-              <select className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <select
+                value={filters.transmission}
+                onChange={(e) => handleFilterChange('transmission', e.target.value)}
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
                 <option value="">Tutte</option>
-                <option value="manuale">Manuale</option>
-                <option value="automatico">Automatico</option>
+                <option value="Manuale">Manuale</option>
+                <option value="Automatico">Automatico</option>
               </select>
             </div>
 
@@ -66,12 +142,16 @@ export default async function CatalogoPage() {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Carburante
               </label>
-              <select className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <select
+                value={filters.fuel_type}
+                onChange={(e) => handleFilterChange('fuel_type', e.target.value)}
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
                 <option value="">Tutti</option>
-                <option value="benzina">Benzina</option>
-                <option value="diesel">Diesel</option>
-                <option value="elettrico">Elettrico</option>
-                <option value="ibrido">Ibrido</option>
+                <option value="Benzina">Benzina</option>
+                <option value="Diesel">Diesel</option>
+                <option value="Elettrico">Elettrico</option>
+                <option value="Ibrido">Ibrido</option>
               </select>
             </div>
 
@@ -79,20 +159,30 @@ export default async function CatalogoPage() {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Prezzo Max/Giorno
               </label>
-              <select className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <select
+                value={filters.max_price}
+                onChange={(e) => handleFilterChange('max_price', e.target.value)}
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
                 <option value="">Qualsiasi</option>
                 <option value="50">Fino a €50</option>
                 <option value="75">Fino a €75</option>
                 <option value="100">Fino a €100</option>
+                <option value="150">Fino a €150</option>
               </select>
             </div>
+          </div>
+
+          {/* Results count */}
+          <div className="mt-4 text-sm text-gray-600">
+            Trovate <span className="font-semibold text-gray-900">{filteredCars.length}</span> auto
           </div>
         </div>
 
         {/* Cars Grid */}
-        {cars && cars.length > 0 ? (
+        {filteredCars && filteredCars.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {cars.map((car: any) => (
+            {filteredCars.map((car: any) => (
               <div
                 key={car.id}
                 className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-xl transition-shadow"

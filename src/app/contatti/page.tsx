@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react'
+import toast from 'react-hot-toast'
 
 export default function ContattiPage() {
   const [formData, setFormData] = useState({
@@ -12,7 +13,6 @@ export default function ContattiPage() {
     message: '',
   })
   const [sending, setSending] = useState(false)
-  const [success, setSuccess] = useState(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -24,11 +24,23 @@ export default function ContattiPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setSending(true)
-    
-    // Simulate sending
-    setTimeout(() => {
-      setSending(false)
-      setSuccess(true)
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Errore nell\'invio del messaggio')
+      }
+
+      toast.success(data.message)
       setFormData({
         name: '',
         email: '',
@@ -36,9 +48,11 @@ export default function ContattiPage() {
         subject: '',
         message: '',
       })
-      
-      setTimeout(() => setSuccess(false), 5000)
-    }, 1500)
+    } catch (error: any) {
+      toast.error(error.message || 'Errore nell\'invio del messaggio')
+    } finally {
+      setSending(false)
+    }
   }
 
   return (

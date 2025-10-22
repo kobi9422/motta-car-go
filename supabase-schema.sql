@@ -132,6 +132,38 @@ CREATE POLICY "Admins can update documents" ON documents
     )
   );
 
+-- Create contact_messages table
+CREATE TABLE IF NOT EXISTS contact_messages (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  email TEXT NOT NULL,
+  phone TEXT,
+  subject TEXT NOT NULL,
+  message TEXT NOT NULL,
+  status TEXT DEFAULT 'new' CHECK (status IN ('new', 'read', 'replied', 'archived')),
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Create cars_for_sale table (if not exists)
+CREATE TABLE IF NOT EXISTS cars_for_sale (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  brand TEXT NOT NULL,
+  model TEXT NOT NULL,
+  year INTEGER NOT NULL,
+  price DECIMAL(10, 2) NOT NULL,
+  mileage INTEGER NOT NULL,
+  fuel_type TEXT NOT NULL,
+  transmission TEXT NOT NULL,
+  description TEXT,
+  features TEXT[],
+  image_url TEXT,
+  images TEXT[],
+  available BOOLEAN DEFAULT true,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  updated_at TIMESTAMPTZ DEFAULT NOW()
+);
+
 -- Create storage bucket for documents (public for easier access with RLS protection)
 INSERT INTO storage.buckets (id, name, public)
 VALUES ('documents', 'documents', true);

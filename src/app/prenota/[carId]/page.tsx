@@ -8,6 +8,7 @@ import Link from 'next/link'
 import { ArrowLeft, Calendar, MapPin, Upload, FileText, Loader2, CheckCircle } from 'lucide-react'
 import { format, differenceInDays, addDays } from 'date-fns'
 import { it } from 'date-fns/locale'
+import toast from 'react-hot-toast'
 
 interface Car {
   id: string
@@ -81,7 +82,7 @@ export default function BookingPage({ params }: { params: Promise<{ carId: strin
           .single()
 
         if (error || !carData) {
-          alert('Auto non trovata')
+          toast.error('Auto non trovata')
           router.push('/catalogo')
           return
         }
@@ -89,7 +90,7 @@ export default function BookingPage({ params }: { params: Promise<{ carId: strin
         setCar(carData)
       } catch (error) {
         console.error('Error loading data:', error)
-        alert('Errore nel caricamento dei dati')
+        toast.error('Errore nel caricamento dei dati')
       } finally {
         setLoading(false)
       }
@@ -124,13 +125,13 @@ export default function BookingPage({ params }: { params: Promise<{ carId: strin
     // Validate file type
     const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf']
     if (!validTypes.includes(file.type)) {
-      alert('Formato file non valido. Usa JPG, PNG o PDF.')
+      toast.error('Formato file non valido. Usa JPG, PNG o PDF.')
       return
     }
 
     // Validate file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      alert('Il file è troppo grande. Massimo 5MB.')
+      toast.error('Il file è troppo grande. Massimo 5MB.')
       return
     }
 
@@ -155,17 +156,17 @@ export default function BookingPage({ params }: { params: Promise<{ carId: strin
 
     // Validation
     if (!formData.start_date || !formData.end_date) {
-      alert('Seleziona le date di noleggio')
+      toast.error('Seleziona le date di noleggio')
       return
     }
 
     if (rentalDays <= 0) {
-      alert('La data di fine deve essere successiva alla data di inizio')
+      toast.error('La data di fine deve essere successiva alla data di inizio')
       return
     }
 
     if (!formData.pickup_location || !formData.dropoff_location) {
-      alert('Seleziona le località di ritiro e consegna')
+      toast.error('Seleziona le località di ritiro e consegna')
       return
     }
 
@@ -174,7 +175,7 @@ export default function BookingPage({ params }: { params: Promise<{ carId: strin
     const hasIdCard = documents.some(doc => doc.type === 'id_card')
 
     if (!hasLicense || !hasIdCard) {
-      alert('Carica sia la patente che la carta d\'identità')
+      toast.error('Carica sia la patente che la carta d\'identità')
       return
     }
 
@@ -233,11 +234,13 @@ export default function BookingPage({ params }: { params: Promise<{ carId: strin
       const { booking } = await response.json()
 
       // 3. Redirect to success page
-      alert('Prenotazione creata con successo! Il contratto è stato generato.')
-      router.push(`/dashboard/prenotazioni`)
+      toast.success('Prenotazione creata con successo! Il contratto è stato generato.')
+      setTimeout(() => {
+        router.push(`/dashboard/prenotazioni`)
+      }, 1500)
     } catch (error: any) {
       console.error('Error creating booking:', error)
-      alert(error.message || 'Errore nella creazione della prenotazione')
+      toast.error(error.message || 'Errore nella creazione della prenotazione')
     } finally {
       setSubmitting(false)
       setUploadingDocs(false)
