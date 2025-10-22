@@ -39,6 +39,7 @@ export default function CatalogoPage() {
       setLoading(false)
     }
     loadCars()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Apply filters

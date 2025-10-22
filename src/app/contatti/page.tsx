@@ -158,14 +158,6 @@ export default function ContattiPage() {
                   Inviaci un Messaggio
                 </h2>
 
-                {success && (
-                  <div className="bg-green-50 border border-green-200 rounded-md p-4 mb-6">
-                    <p className="text-green-700">
-                      ✓ Messaggio inviato con successo! Ti risponderemo al più presto.
-                    </p>
-                  </div>
-                )}
-
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>

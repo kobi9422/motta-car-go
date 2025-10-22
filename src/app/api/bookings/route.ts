@@ -152,7 +152,7 @@ export async function POST(request: NextRequest) {
 }
 
 // GET - List user's bookings
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const supabase = await createClient()
 

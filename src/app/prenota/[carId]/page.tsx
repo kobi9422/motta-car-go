@@ -7,7 +7,6 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeft, Calendar, MapPin, Upload, FileText, Loader2, CheckCircle } from 'lucide-react'
 import { format, differenceInDays, addDays } from 'date-fns'
-import { it } from 'date-fns/locale'
 import toast from 'react-hot-toast'
 
 interface Car {
@@ -231,7 +230,7 @@ export default function BookingPage({ params }: { params: Promise<{ carId: strin
         throw new Error(error.message || 'Errore nella creazione della prenotazione')
       }
 
-      const { booking } = await response.json()
+      await response.json()
 
       // 3. Redirect to success page
       toast.success('Prenotazione creata con successo! Il contratto è stato generato.')
