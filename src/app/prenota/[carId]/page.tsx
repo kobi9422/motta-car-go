@@ -48,8 +48,8 @@ export default function BookingPage({ params }: { params: Promise<{ carId: strin
   const [formData, setFormData] = useState<BookingFormData>({
     start_date: format(addDays(new Date(), 1), 'yyyy-MM-dd'),
     end_date: format(addDays(new Date(), 3), 'yyyy-MM-dd'),
-    pickup_location: 'Roma - Sede Centrale',
-    dropoff_location: 'Roma - Sede Centrale',
+    pickup_location: 'Barzanò (LC) - Sede Centrale',
+    dropoff_location: 'Barzanò (LC) - Sede Centrale',
   })
 
   const [documents, setDocuments] = useState<UploadedDocument[]>([])
@@ -337,11 +337,7 @@ export default function BookingPage({ params }: { params: Promise<{ carId: strin
                       onChange={(e) => setFormData(prev => ({ ...prev, pickup_location: e.target.value }))}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
-                      <option value="Roma - Sede Centrale">Roma - Sede Centrale</option>
-                      <option value="Roma - Aeroporto Fiumicino">Roma - Aeroporto Fiumicino</option>
-                      <option value="Roma - Stazione Termini">Roma - Stazione Termini</option>
-                      <option value="Milano - Sede">Milano - Sede</option>
-                      <option value="Milano - Aeroporto Malpensa">Milano - Aeroporto Malpensa</option>
+                      <option value="Barzanò (LC) - Sede Centrale">Barzanò (LC) - Sede Centrale</option>
                     </select>
                   </div>
                   <div>
@@ -354,11 +350,7 @@ export default function BookingPage({ params }: { params: Promise<{ carId: strin
                       onChange={(e) => setFormData(prev => ({ ...prev, dropoff_location: e.target.value }))}
                       className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     >
-                      <option value="Roma - Sede Centrale">Roma - Sede Centrale</option>
-                      <option value="Roma - Aeroporto Fiumicino">Roma - Aeroporto Fiumicino</option>
-                      <option value="Roma - Stazione Termini">Roma - Stazione Termini</option>
-                      <option value="Milano - Sede">Milano - Sede</option>
-                      <option value="Milano - Aeroporto Malpensa">Milano - Aeroporto Malpensa</option>
+                      <option value="Barzanò (LC) - Sede Centrale">Barzanò (LC) - Sede Centrale</option>
                     </select>
                   </div>
                 </div>

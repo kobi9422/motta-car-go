@@ -221,10 +221,10 @@ export async function GET(
     // Footer
     pdf.setFontSize(8)
     pdf.setTextColor(128, 128, 128)
-    const footerText = 'Motta Car & Go SRL - Via Roma 123, 00100 Roma - P.IVA: 12345678901 - Tel: +39 06 1234 5678'
-    addText(footerText, pageWidth / 2, pageHeight - 10, { 
+    const footerText = 'Motta Car & Go SRL - Via Giuseppe Parini, 5 - 23891 Barzanò (LC) - P.IVA: 03456789012 - Tel: +39 351 987 6543'
+    addText(footerText, pageWidth / 2, pageHeight - 10, {
       fontSize: 8,
-      align: 'center' 
+      align: 'center'
     })
 
     // Convert PDF to buffer
