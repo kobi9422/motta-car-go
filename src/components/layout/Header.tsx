@@ -60,7 +60,9 @@ export default function Header() {
     const supabase = createClient()
     await supabase.auth.signOut()
     setUser(null)
-    router.push('/')
+    setIsAdmin(false)
+    // Force a hard refresh to clear all cached data
+    window.location.href = '/'
   }
 
   return (

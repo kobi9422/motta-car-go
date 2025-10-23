@@ -19,11 +19,10 @@ export default function CatalogoPage() {
     max_price: ''
   })
 
-  const supabase = createClient()
-
   // Load cars
   useEffect(() => {
     async function loadCars() {
+      const supabase = createClient()
       const { data, error } = await supabase
         .from('cars')
         .select('*')
@@ -39,7 +38,6 @@ export default function CatalogoPage() {
       setLoading(false)
     }
     loadCars()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Apply filters
