@@ -27,18 +27,42 @@ export default async function AdminDashboard() {
     console.error('Error fetching cars for sale:', saleError)
   }
 
+  // Get all bookings with car and user details
+  const { data: bookings, error: bookingsError } = await supabase
+    .from('bookings')
+    .select(`
+      *,
+      cars (
+        brand,
+        model,
+        year,
+        image_url
+      ),
+      profiles (
+        full_name,
+        email,
+        phone
+      )
+    `)
+    .order('created_at', { ascending: false })
+
+  if (bookingsError) {
+    console.error('Error fetching bookings:', bookingsError)
+  }
+
   return (
     <div>
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900">Dashboard Admin</h1>
         <p className="mt-2 text-gray-600">
-          Gestisci tutte le auto disponibili per noleggio e vendita
+          Gestisci tutte le auto disponibili per noleggio e vendita, e visualizza le prenotazioni
         </p>
       </div>
 
       <AdminDashboardTabs
         rentalCars={rentalCars || []}
         saleCars={saleCars || []}
+        bookings={bookings || []}
       />
     </div>
   )

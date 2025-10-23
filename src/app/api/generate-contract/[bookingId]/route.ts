@@ -185,14 +185,18 @@ export async function GET(
     yPos += 12
 
     const terms = [
-      '1. Il conducente deve avere almeno 21 anni e possedere una patente di guida valida.',
-      '2. L\'assicurazione completa (Kasko, furto, RC) è inclusa nel prezzo.',
-      '3. Il chilometraggio è illimitato.',
-      '4. Il veicolo deve essere restituito con il pieno di carburante.',
-      '5. È vietato fumare all\'interno del veicolo.',
-      '6. Il conducente è responsabile di eventuali danni non coperti dall\'assicurazione.',
-      '7. In caso di incidente, contattare immediatamente il numero di assistenza 24/7.',
-      '8. La cancellazione deve essere effettuata almeno 48 ore prima del ritiro.',
+      '1. REQUISITI CONDUCENTE: Il conducente deve avere almeno 21 anni e possedere una patente di guida valida da almeno 1 anno. Conducenti tra 21-25 anni potrebbero essere soggetti a supplemento giovane conducente.',
+      '2. ASSICURAZIONE E FRANCHIGIA: Il veicolo è coperto da assicurazione RCA, Kasko Collisione, Furto e Incendio. In caso di sinistro con responsabilità del conducente, si applica una franchigia di €800,00. La franchigia può essere ridotta a €0 acquistando la copertura "Super Kasko" al momento del ritiro.',
+      '3. RESPONSABILITÀ DEL CONDUCENTE: Il conducente è responsabile per tutti i danni al veicolo causati da: guida in stato di ebbrezza o sotto effetto di sostanze stupefacenti, violazione del codice della strada, utilizzo improprio del veicolo, danni agli interni e pneumatici.',
+      '4. CHILOMETRAGGIO: Chilometraggio illimitato sul territorio italiano. Per uscite dall\'Italia è necessaria autorizzazione preventiva.',
+      '5. CARBURANTE: Il veicolo viene consegnato con il pieno di carburante e deve essere restituito con il pieno. In caso contrario verrà addebitato il costo del carburante mancante maggiorato del 30% per spese di rifornimento.',
+      '6. DIVIETI: È vietato fumare all\'interno del veicolo (penale €150), trasportare animali senza apposito trasportino (penale €100), subaffittare il veicolo a terzi, partecipare a gare o competizioni.',
+      '7. INCIDENTI E DANNI: In caso di incidente il conducente deve: a) Non abbandonare il luogo dell\'incidente; b) Chiamare immediatamente le autorità (112/113); c) Compilare il modulo CAI; d) Contattare Motta Car & Go entro 24 ore al +39 351 987 6543. La mancata denuncia comporta la perdita della copertura assicurativa.',
+      '8. MULTE E INFRAZIONI: Tutte le multe e infrazioni al codice della strada sono a carico del conducente. Verrà addebitata una commissione amministrativa di €35 per ogni multa gestita.',
+      '9. RITARDO NELLA RICONSEGNA: Il ritardo nella riconsegna superiore a 1 ora comporta l\'addebito di un giorno aggiuntivo. Oltre 24 ore di ritardo senza preavviso costituisce appropriazione indebita.',
+      '10. CANCELLAZIONE: Cancellazione gratuita fino a 48 ore prima del ritiro. Cancellazioni tra 48-24 ore: penale 50% dell\'importo. Cancellazioni entro 24 ore o mancato ritiro: penale 100% dell\'importo.',
+      '11. DEPOSITO CAUZIONALE: Al ritiro viene richiesto un deposito cauzionale di €500 tramite carta di credito (non debito) intestata al conducente. Il deposito viene sbloccato entro 14 giorni dalla riconsegna.',
+      '12. FORO COMPETENTE: Per qualsiasi controversia è competente esclusivamente il Foro di Lecco. Il contratto è regolato dalla legge italiana.',
     ]
 
     pdf.setFontSize(9)
